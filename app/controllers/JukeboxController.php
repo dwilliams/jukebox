@@ -39,12 +39,6 @@ class JukeboxController extends BaseController {
                 $artist = Artist::find($album->artist_id);
                 $songs[] = array($song->name, $artist->name, $album->name, $song->album_id);
             }
-	    //$songs = array(array('Bleeding Mascara', 'Atreyu', 'The Curse'),
-	    //               array('Generator', 'Bad Religion', 'Against The Grain'),
-	    //               array('Nugget', 'CAKE', 'Fashion Nugget'));
-	    // Asset::add('style', 'css/style.css');
-	    // Asset::add('jquery', 'js/jquery-1.9.1.js');
-	    // Asset::add('jquery-ui', 'js/jquery-ui.js');
 	    
 	    $data = array('oldsongs' => array_slice($songs, 1),
                           'currentsong' => $songs[0]);
@@ -52,18 +46,25 @@ class JukeboxController extends BaseController {
 	}
 
 	public function getAdd($artist = '', $album = '', $song = '') {
-	    // Asset::add('style', 'css/style.css');
-	    // Asset::add('jquery', 'js/jquery-1.9.1.js');
-	    // Asset::add('jquery-ui', 'js/jquery-ui.js');
-	    
 	    if($artist == '') {
+                $artist_list = array();
+                $artists = Artist::all();
 	        // Generate the artist list
-	        $artists = array('A' => array('Atreyu', 'Avenged Sevenfold'),
-	                         'B' => array('Bad Religion', 'Big D and the Kids Table'),
-	                         'C' => array('CAKE', 'Catch 22'),
-	                         'D' => array('Deerhoof', 'Dropkick Murphys'));
+                foreach ($artists as $artist) {
+                    // If the first letter of the artist is not a key, add it
+                    $first_letter = strtoupper(substr($artist->name, 0, 1));
+                    if(!array_key_exists($first_letter, $artist_list)) {
+                        $artist_list[$first_letter] = array();
+                    }
+                    // Then add the artist to the array for the letter
+                    $artist_list[$first_letter][] = $artist->name;
+                }
+
+                // Sort the alphabet...
+                ksort($artist_list);
+
 	        // Generate and display the view
-	        $data = array('artists' => $artists);
+	        $data = array('artists' => $artist_list);
 	        return View::make('jukebox.add', $data);
 	    }
 	    
