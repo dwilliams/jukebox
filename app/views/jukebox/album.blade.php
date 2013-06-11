@@ -27,13 +27,11 @@ $( "#accordion" ).accordion({ active: false, collapsible: true, heightStyle: "co
 			<h3 class="addLetter"><?php echo $album; ?></h3>
 			<div class="addWrapper" id="<?php echo $album; ?>">
 			    <img src="/jukebox/pic/<?php echo $album_ids[$album]; ?>" />
-			    <div>
-			        <ul class="artistList">
+			    <ul class="songList">
 <?php foreach ($song_list as $song_name) { ?>		    
-                                    <li><?php echo HTML::link('jukebox/add/'.$artist_name.'/'.$album.'/'.$song_name, $song_name); ?></li>
+                                <li><?php echo HTML::link('jukebox/add/'.$artist_name.'/'.$album.'/'.$song_name, $song_name); ?></li>
 <?php } ?>
-			        </ul>
-			    </div>
+			    </ul>
 			</div>
 <?php } ?>
 		</div>
