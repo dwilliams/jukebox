@@ -24,7 +24,7 @@ $( "#accordion" ).accordion({ active: false, collapsible: true });
 		</header>
 		<div class="main">
 		  <div class="nowplaying">
-		    <img src="" />
+		    <img src="/jukebox/pic/<?php echo $currentsong[3]; ?>" />
 		    <div class="songtitle"><?php echo $currentsong[0]; ?></div>
 		    <div class="artistalbum"><?php echo $currentsong[1]; ?></div>
 		    <div class="artistalbum"><?php echo $currentsong[2]; ?></div>
@@ -32,7 +32,7 @@ $( "#accordion" ).accordion({ active: false, collapsible: true });
 		  </div>
 		  <?php foreach ($oldsongs as $oldsong) { ?>
 		  <div class="lastsong">
-		    <img src="" />
+		    <img src="/jukebox/pic/<?php echo $oldsong[3]; ?>" />
 		    <div class="songtitle"><?php echo $oldsong[0]; ?></div>
 		    <div class="artistalbum"><?php echo $oldsong[1]; ?></div>
 		    <div class="artistalbum"><?php echo $oldsong[2]; ?></div>

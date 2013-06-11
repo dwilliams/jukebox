@@ -37,7 +37,7 @@ class JukeboxController extends BaseController {
                 $song = Song::find($item->song_id);
                 $album = Album::find($song->album_id);
                 $artist = Artist::find($album->artist_id);
-                $songs[] = array($song->name, $artist->name, $album->name);
+                $songs[] = array($song->name, $artist->name, $album->name, $song->album_id);
             }
 	    //$songs = array(array('Bleeding Mascara', 'Atreyu', 'The Curse'),
 	    //               array('Generator', 'Bad Religion', 'Against The Grain'),
@@ -83,5 +83,16 @@ class JukeboxController extends BaseController {
 	
 	public function getPic($album_id = 0) {
 	    // This should return a picture for the album art
+            $pic_data = "";
+            $pic_mime = "";
+            if($album_id != 0) {
+                // Try and find the album and return the artwork
+                $album = Album::find($album_id);
+                if($album) {
+                    $pic_data = $album->pic_data;
+                    $pic_mime = $album->pic_mime;
+                }
+            }
+            return Response::make($pic_data, 200, array('Content-Type' => $pic_mime));
 	}
 }
