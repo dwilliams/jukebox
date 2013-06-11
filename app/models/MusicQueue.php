@@ -1,11 +1,11 @@
 <?php
   /***
-    *  Queue.php
+    *  MusicQueue.php
     *  Model for songs table
    ***/
 
-class Queue extends Eloquent {
-  protected $table = 'Queue';
+class MusicQueue extends Eloquent {
+  protected $table = 'queue';
   public $timestamps = false;
 }
 

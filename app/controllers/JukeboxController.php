@@ -45,8 +45,8 @@ class JukeboxController extends BaseController {
 		return View::make('jukebox.index', $data);
 	}
 
-	public function getAdd($artist = '', $album = '', $song = '') {
-	    if($artist == '') {
+	public function getAdd($artist_name = '', $album_name = '', $song_name = '') {
+	    if($artist_name == '') {
                 $artist_list = array();
                 $artists = Artist::all();
 	        // Generate the artist list
@@ -68,18 +68,37 @@ class JukeboxController extends BaseController {
 	        return View::make('jukebox.add', $data);
 	    }
 	    
-	    if($album == '' || $song == '') {
+            $artist = Artist::where('name', '=', $artist_name)->first();
+
+	    if($album_name == '' || $song_name == '') {
+                $song_list = array();
+                $albums = Album::where('artist_id', '=', $artist->id)->get();
 	        // Generate the Album and Song list
-	        $songs = array('Do or Die' => array('Cadence to Arms', 'Do or Die'),
-	                       'Album 2' => array('Song 1', 'Song 2'));
+                foreach ($albums as $album) {
+                    $song_list[$album->name] = array();
+                    $songs = Song::where('album_id', '=', $album->id)->get();
+                    foreach ($songs as $song) {
+                        $song_list[$album->name][$song->num] = $song->name;
+                    }
+                }
+
+	        //$songs = array('Do or Die' => array('Cadence to Arms', 'Do or Die'),
+	        //               'Album 2' => array('Song 1', 'Song 2'));
 	        // Generate and display the view
-	        $data = array('songs' => $songs,
-	                      'artist_name' => $artist);
+	        $data = array('songs' => $song_list,
+	                      'artist_name' => $artist->name);
 	        return View::make('jukebox.album', $data);
 	    }
-	    
+
+	    $album = Album::where('name', '=', $album_name)->where('artist_id', '=', $artist->id)->first();
+            $song = Song::where('name', '=', $song_name)->where('album_id', '=', $album->id)->first();
+
 	    // If everything's set, insert the song into the queue (if it's not already there)
 	    //   and display the Currently playing page
+            // Laravel doesn't support upsert functionality, so this will be raw...
+            DB::insert('INSERT INTO queue (id, song_id) VALUES (NULL, ?) ON DUPLICATE KEY UPDATE id = id', array($song->id));
+
+            return View::make('jukebox.added');
 	}
 	
 	public function getPic($album_id = 0) {
