@@ -10,7 +10,7 @@
     <?php echo HTML::script('js/jquery-ui.js'); ?>
 <script>
 $(function() {
-$( "#accordion" ).accordion({ active: false, collapsible: true });
+$( "#accordion" ).accordion({ active: false, collapsible: true, heightStyle: "content" });
 });
 </script>
 </head>
@@ -26,12 +26,14 @@ $( "#accordion" ).accordion({ active: false, collapsible: true });
 <?php foreach ($songs as $album => $song_list) { ?>
 			<h3 class="addLetter"><?php echo $album; ?></h3>
 			<div class="addWrapper" id="<?php echo $album; ?>">
-			    <img src="" />
-			    <ul class="artistList">
+			    <img src="/jukebox/pic/<?php echo $album_ids[$album]; ?>" />
+			    <div>
+			        <ul class="artistList">
 <?php foreach ($song_list as $song_name) { ?>		    
-                    <li><?php echo HTML::link('jukebox/add/'.$artist_name.'/'.$album.'/'.$song_name, $song_name); ?></li>
+                                    <li><?php echo HTML::link('jukebox/add/'.$artist_name.'/'.$album.'/'.$song_name, $song_name); ?></li>
 <?php } ?>
-			    </ul>
+			        </ul>
+			    </div>
 			</div>
 <?php } ?>
 		</div>

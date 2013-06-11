@@ -72,10 +72,12 @@ class JukeboxController extends BaseController {
 
 	    if($album_name == '' || $song_name == '') {
                 $song_list = array();
+                $album_ids = array();
                 $albums = Album::where('artist_id', '=', $artist->id)->get();
 	        // Generate the Album and Song list
                 foreach ($albums as $album) {
                     $song_list[$album->name] = array();
+                    $album_ids[$album->name] = $album->id;
                     $songs = Song::where('album_id', '=', $album->id)->get();
                     foreach ($songs as $song) {
                         $song_list[$album->name][$song->num] = $song->name;
@@ -86,6 +88,7 @@ class JukeboxController extends BaseController {
 	        //               'Album 2' => array('Song 1', 'Song 2'));
 	        // Generate and display the view
 	        $data = array('songs' => $song_list,
+                              'album_ids' => $album_ids,
 	                      'artist_name' => $artist->name);
 	        return View::make('jukebox.album', $data);
 	    }
