@@ -11,9 +11,11 @@ def my_request_function() =
   request.create(result)
 end
 
-playqueue = request.dynamic(my_request_function)
+# Get the song URL from the script, then skip blanks, then buffer.  The buffer prevents the fallback from
+#    falling back to the safety stream and hopefully prevents buffer underruns with alsa.
+playqueue = buffer(fallible=true, start=true, max=2., skip_blank(length=3., request.dynamic(my_request_function)))
 
-safety = single("/tank/safety/CAKE/Comfort Eagle/03 Shadow Stabbing.mp3")
+safety = audio_to_stereo(single("/tank/safety/lixismarried-dtmf.ogg"))
 
 radio = fallback([playqueue, safety])
 
