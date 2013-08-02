@@ -8,7 +8,7 @@ use DBI;
 use MP3::Tag;
 
 # Set the base path (this should come from command line in future)
-my $base_path = "/tank/safety";
+my $base_path = "/tank/usb";
 
 # Set database variables
 my $dsn = "dbi:mysql:database=jukebox;host=localhost;port=3306";

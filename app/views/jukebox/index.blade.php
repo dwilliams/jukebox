@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Jukebox</title>
 	<meta name="viewport" content="width=device-width">
+	<meta http-equiv="REFRESH" content="15; /jukebox/">
     <?php echo HTML::style('css/style.css'); ?>
     <?php echo HTML::script('js/jquery-1.9.1.js'); ?>
     <?php echo HTML::script('js/jquery-ui.js'); ?>
